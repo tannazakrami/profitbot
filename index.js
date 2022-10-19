@@ -87,7 +87,7 @@ const sendPhoto = () => {
     bot.sendDocument(5573054825,`./screenshots/screenshot${today}.jpg`)
 }
 
-cron.schedule('0 42,45,48,50 14 * * 1,2,3,4,5', () => {
+cron.schedule('55 14 * * 1,2,3,4,5', () => {
     getScreen()
     getValues()
 })

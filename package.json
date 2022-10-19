@@ -1,0 +1,22 @@
+{
+  "name": "profitbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "googleapis": "^108.0.0",
+    "grabzit": "^3.5.2",
+    "node-cron": "^3.0.2",
+    "node-telegram-bot-api": "^0.59.0",
+    "puppeteer": "^19.0.0",
+    "puppeteer-extra": "^3.3.4",
+    "puppeteer-extra-plugin-stealth": "^2.11.1"
+  }
+}

@@ -15,15 +15,17 @@ let day = String(today.getDate()).padStart(2,'0') - 1;
 let month = String(today.getMonth()+1).padStart(2,'0');
 let year = today.getFullYear();
 today = day + '.' + month + '.' + year;
+let weekday = new Date().getDay();
+console.log(weekday);
 
-const getValues = async () => {
+const getValues = async (date) => {
     let arrayData = await data();
-
+    console.log(arrayData);
     let dateIndex;
     let resultArray = [];
     arrayData.map((element) => {
         element.map((el, index) => {
-            if(el == today){
+            if(el == date){
                 dateIndex = index
             }
         })
@@ -40,7 +42,7 @@ const getValues = async () => {
     const arrayLength = resultArray.length
     resultArray[arrayLength-1][0] = "Итоговая прибыль";
     resultArray.shift()
-    let message = `Прибыль по аккаунтам за ${today}: \n`;
+    let message = `Прибыль по аккаунтам за ${date}: \n`;
     resultArray.forEach((el, i) => {
         i !== resultArray.length-1 ? message += `${el[0]}: ${el[1]}$\n` : `${el[0]}: ${el[1]}$\n`
     })
@@ -49,7 +51,7 @@ const getValues = async () => {
     bot.sendMessage(5573054825, message)
 }
 
-const getScreen = async () => {
+const getScreen = async (date) => {
     const browser = await puppeteer.launch({
         headless: true,
         args: [
@@ -74,20 +76,30 @@ const getScreen = async () => {
     await page.keyboard.press('Enter');
     await page.waitForTimeout(10000);
     const element = await page.$('#waffle-grid-container');
-    await element.screenshot({path: `./screenshots/screenshot${today}.jpg`})
+    await element.screenshot({path: `./screenshots/screenshot${date}.jpg`})
     await browser.close();
-    await sendPhoto();
+    await sendPhoto(date);
 }
 
-bot.on("message", (msg) => {
-    console.log(msg.chat.id)
-})
-
-const sendPhoto = () => {
-    bot.sendDocument(5573054825,`./screenshots/screenshot${today}.jpg`)
+const sendPhoto = (date) => {
+    bot.sendDocument(5573054825,`./screenshots/screenshot${date}.jpg`)
 }
 
-cron.schedule('55 14 * * 1,2,3,4,5', () => {
-    getScreen()
-    getValues()
+cron.schedule('30 15 * * 1,2,3,4,5', async () => {
+    if(weekday == 1){
+        let friday = day-2 + '.' + month + '.' + year;
+        let saturday = day-1 + '.' + month + '.' + year;
+        getValues(friday);
+        getScreen(friday);
+
+        getValues(saturday);
+        getScreen(saturday);
+
+        getValues(today);
+        getScreen(today);
+    }
+    else{
+        getValues(today)
+        getScreen(today)
+    }
 })

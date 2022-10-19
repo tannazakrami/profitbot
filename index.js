@@ -1,6 +1,5 @@
 require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
-const {Keyboard} = require('puppeteer')
 const puppeteer = require('puppeteer-extra');
 const cron = require('node-cron');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
@@ -88,7 +87,7 @@ const sendPhoto = () => {
     bot.sendDocument(5573054825,`./screenshots/screenshot${today}.jpg`)
 }
 
-cron.schedule('0 25 14 * * 1,2,3,4,5', () => {
+cron.schedule('0 30 14 * * 1,2,3,4,5', () => {
     getScreen()
     getValues()
 })

@@ -52,7 +52,7 @@ const getValues = async () => {
 
 const getScreen = async () => {
     const browser = await puppeteer.launch({
-        headless: false,
+        headless: true,
         args: [
             '--no-sandbox',
             '-disable-gpu',
@@ -88,7 +88,7 @@ const sendPhoto = () => {
     bot.sendDocument(5573054825,`./screenshots/screenshot${today}.jpg`)
 }
 
-cron.schedule('0 5 14 * * 1,2,3,4,5', () => {
+cron.schedule('0 25 14 * * 1,2,3,4,5', () => {
     getScreen()
     getValues()
 })
